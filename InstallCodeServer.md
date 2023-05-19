@@ -45,15 +45,9 @@ aws sagemaker create-notebook-instance-lifecycle-config \
     3. 启动实例，在launcher中看到code-server图标，但此时打开会报错500
     4. 打开Terminal，安装code-server，再打开code-server图标，可以成功连接
 
-<<<<<<< HEAD
-    ```
-    curl -LO https://github.com/aws-samples/amazon-sagemaker-codeserver/releases/download/v0.1.5/amazon-sagemaker-codeserver-0.1.5.tar.gz 
-    tar -xvzf amazon-sagemaker-codeserver-0.1.5.tar.gz 
-=======
 ```
 curl -LO https://github.com/aws-samples/amazon-sagemaker-codeserver/releases/download/v0.1.5/amazon-sagemaker-codeserver-0.1.5.tar.gz 
 tar -xvzf amazon-sagemaker-codeserver-0.1.5.tar.gz 
->>>>>>> f491a4a (Revise steps)
 
 cd amazon-sagemaker-codeserver/install-scripts/notebook-instances
 
@@ -62,7 +56,5 @@ chmod +x setup-codeserver.sh sudo
 ./install-codeserver.sh sudo 
 ./setup-codeserver.sh`
 ```
-
-Alternative：先安装code-server，关联lifecycle configuration
 
 Alternative：先安装code-server，关联lifecycle configuration
