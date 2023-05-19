@@ -1,1 +1,0 @@
-# sagemaker-notebook-instance-setup
