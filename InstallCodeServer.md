@@ -45,7 +45,7 @@ Reference: https://aws.amazon.com/blogs/machine-learning/host-code-server-on-ama
     4. 打开Terminal，安装code-server，再打开code-server图标，可以成功连接
 
     ```
-    `curl -LO https://github.com/aws-samples/amazon-sagemaker-codeserver/releases/download/v0.1.5/amazon-sagemaker-codeserver-0.1.5.tar.gz 
+    curl -LO https://github.com/aws-samples/amazon-sagemaker-codeserver/releases/download/v0.1.5/amazon-sagemaker-codeserver-0.1.5.tar.gz 
     tar -xvzf amazon-sagemaker-codeserver-0.1.5.tar.gz 
 
     cd amazon-sagemaker-codeserver/install-scripts/notebook-instances
@@ -56,3 +56,4 @@ Reference: https://aws.amazon.com/blogs/machine-learning/host-code-server-on-ama
     ./setup-codeserver.sh`
     ```
 
+Alternative：先安装code-server，关联lifecycle configuration
