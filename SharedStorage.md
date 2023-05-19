@@ -18,7 +18,7 @@ Reference：https://aws.amazon.com/blogs/machine-learning/mount-an-efs-file-syst
 ```
 cd SageMaker && mkdir efs
 sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-xxxxxx.efs.us-west-2.amazonaws.com:/ efs
-`sudo chmod go``+``rw ``./``efs`
+sudo chmod go+rw ./efs
 ```
 
 * 可创建文件保存到efs目录中，在其他挂载该文件系统的实例上可查看该文件
@@ -31,6 +31,10 @@ sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,ret
 
     # Attach EFS for sharing
     EFS_PATH=/home/ec2-user/SageMaker/efs
+    if [ ! -d "$EFS_PATH" ]; then
+        mkdir -p "$EFS_PATH"
+    fi
+    
     sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-00c91d768ba5538b5.efs.us-west-2.amazonaws.com:/ $EFS_PATH
     sudo chmod go+rw $EFS_PATH
     ```
