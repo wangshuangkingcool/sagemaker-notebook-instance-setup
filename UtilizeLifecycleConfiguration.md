@@ -10,7 +10,7 @@
 ```
 #!/bin/bash
 
-PACKAGES="numpy seaborn plotly"
+PACKAGES="numpy plotly"
 
 for package in $PACKAGES; do
     echo "Installing $package..."
