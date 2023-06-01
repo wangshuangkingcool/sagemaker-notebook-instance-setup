@@ -132,7 +132,7 @@ PYTHON="3.9"
 
 for kernel in $KERNEL_NAMES
 do
-    conda create --yes --prefix "$WORKING_DIR/$kernel" python="$PYTHON"
+    conda create --yes --prefix "$WORKING_DIR" --name "kernel" python="$PYTHON"
     conda activate $WORKING_DIR/$kernel
     for package in ipykernel langchain==0.0.158 openai==0.27.5 python-dotenv==1.0.0 fastapi==0.95.1 uvicorn[standard]==0.22.0 websockets==11.0.2 Jinja2==3.1.2 faiss-cpu
     do

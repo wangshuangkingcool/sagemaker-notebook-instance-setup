@@ -7,19 +7,19 @@ if [ ! -d "$EFS_PATH" ]; then
     mkdir -p "$EFS_PATH"
 fi
 
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0ed540c51d6b94f4f.efs.us-west-2.amazonaws.com:/ $EFS_PATH
+_EFS_MOUNT_NFS_COMMAND_ $EFS_PATH
+# e.g. sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-XXXXXX.efs.us-west-2.amazonaws.com:/ $EFS_PATH
 sudo chmod go+rw $EFS_PATH
 
 # Check scripts
-SCRIPT_DIR=$EFS_PATH/lifecycle/scripts
+SCRIPT_DIR=/home/ec2-user/SageMaker/lifecycle/scripts
 if [ ! -d "$SCRIPT_DIR" ]; then
 	mkdir -p $SCRIPT_DIR
-	
+	aws s3 sync _S3_SCRIPT_PATH_ $SCRIPT_DIR
 fi
-aws s3 sync s3://sagemaker-lifecycles-917168543081/notebook $SCRIPT_DIR
 
 # Setup custom conda envs
-sudo -u ec2-user -i <<'EOF'
+sudo -u ec2-user -i << 'EOF'
 unset SUDO_UID
 
 WORKING_DIR=/home/ec2-user/SageMaker/custom-miniconda
