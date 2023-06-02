@@ -36,6 +36,7 @@ do
         echo "Installing $package..."
         pip install --quiet --upgrade $package
     done
+    conda deactivate
 done
 
 EOF
