@@ -17,9 +17,15 @@ cd /tmp
 curl -LO https://github.com/aws-samples/amazon-sagemaker-codeserver/releases/download/v0.1.5/amazon-sagemaker-codeserver-0.1.5.tar.gz
 tar -xvzf amazon-sagemaker-codeserver-0.1.5.tar.gz
 ```
-
 ```
+# 如果需要选择已经创建的桶来保存脚本，先列出S3桶
+aws s3 ls
+```
+```
+# 选择s3桶名称，或者输入一个新的桶名称(桶名称全小写，不能包括“_”)
 BUCKET_NAME=<intended bucket name>
+```
+```
 SCRIPT_PATH=s3://$BUCKET_NAME/lifecycle/scripts
 REGION=ap-southeast-1
 
@@ -30,19 +36,29 @@ aws s3 sync /tmp/amazon-sagemaker-codeserver/install-scripts/notebook-instances/
 ### 2.创建EFS文件系统
 
 * 参考 [SharedStorage](/SharedStorage.md)
-* 进入EFS控制台，选择要挂载文件系统获取文件系统，点击链接，复制NFS命令行
+* 列出所有EFS文件系统，根据名称，选择第二列的FileSystemId, e.g. fs-xxxxxxxxxx
+```
+aws efs describe-file-systems --region $REGION --query 'FileSystems[].[Name, FileSystemId]' --output text
+```
+```
+FILE_SYSTEM_ID=<FileSystemId>
+```
+```
+NFS_MOUNT="sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport $FILE_SYSTEM_ID.efs.$REGION.amazonaws.com:/"
+echo $NFS_MOUNT
+```
+* **或者**进入EFS控制台，选择要挂载文件系统获取文件系统，点击链接，复制NFS命令行
 
 ```
 NFS_MOUNT="sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-xxxxxxx.efs.ap-southeast-1.amazonaws.com:/"
 ```
-
 > **_INFO:_** 删除命令结尾的efs，只保留到`<dns>.efs.<region>.amazonaws.com:/`
 
 ### 3. 更新脚本
 
 ```
-curl -LO https://raw.githubusercontent.com/wangshuangkingcool/sagemaker-notebook-instance-setup/md/static/scripts/oncreate_s3.sh
-curl -LO https://raw.githubusercontent.com/wangshuangkingcool/sagemaker-notebook-instance-setup/md/static/scripts/onstart_s3.sh
+curl -LO https://raw.githubusercontent.com/wangshuangkingcool/sagemaker-notebook-instance-setup/md/static/scripts/templates/oncreate_s3.sh
+curl -LO https://raw.githubusercontent.com/wangshuangkingcool/sagemaker-notebook-instance-setup/md/static/scripts/templates/onstart_s3.sh
 
 sed -i "s|_S3_SCRIPT_PATH_|$SCRIPT_PATH|g" oncreate_s3.sh
 sed -i "s|_S3_SCRIPT_PATH_|$SCRIPT_PATH|g" onstart_s3.sh
